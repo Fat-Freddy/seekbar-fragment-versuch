@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Seekbar Fragment Versuch</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Eins</string>
+    <string name="tab_text_2">Zwei</string>
+    <string name="tab_text_3">Drei</string>
+    <string name="tab_text_4">Vier</string>
 </resources>

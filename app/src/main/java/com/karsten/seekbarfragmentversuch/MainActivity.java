@@ -2,20 +2,21 @@ package com.karsten.seekbarfragmentversuch;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.widget.SeekBar;
 
-import com.karsten.seekbarfragmentversuch.ui.main.SectionsPagerAdapter;
+import com.karsten.seekbarfragmentversuch.fragments.SectionsPagerAdapter;
+import com.karsten.seekbarfragmentversuch.fragments.SharedViewModel;
 
 public class MainActivity extends AppCompatActivity {
+
+    private SharedViewModel viewModel;
+    //private SeekBar seekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +26,35 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        tabs.setupWithViewPager(viewPager);
+        SeekBar seekBar= findViewById(R.id.seekBar);
+
+        viewModel = ViewModelProviders.of(this).get(SharedViewModel.class);
+        seekBar.setMax(100);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+                String jaja= String.valueOf(i);
+
+                viewModel.setText(jaja);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
+
+
+       // viewModel = new ViewModelProvider(MainActivity.this).get(SharedViewModel.class);
+
     }
 }

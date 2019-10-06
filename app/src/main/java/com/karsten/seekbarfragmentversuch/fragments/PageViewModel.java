@@ -1,4 +1,4 @@
-package com.karsten.seekbarfragmentversuch.ui.main;
+package com.karsten.seekbarfragmentversuch.fragments;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
