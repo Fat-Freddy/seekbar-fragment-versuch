@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,42 +18,33 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.card.MaterialCardView;
 import com.karsten.seekbarfragmentversuch.R;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class FragmentEins extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private PageViewModel pageViewModel;
-    private SharedViewModel viewModel;
-
+    //private static final String ARG_SECTION_NUMBER = "section_number";
     private MaterialCardView cv1;
     private MaterialCardView cv2;
     private MaterialCardView cv3;
 
-
-    public static FragmentEins newInstance(int index) {
-        FragmentEins fragment = new FragmentEins();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    //region ** Nicht so wichtig
+    // public static FragmentEins newInstance(int index) {
+    //     FragmentEins fragment = new FragmentEins();
+    //     Bundle bundle = new Bundle();
+    //     bundle.putInt(ARG_SECTION_NUMBER, index);
+    //     fragment.setArguments(bundle);
+    //     return fragment;
+    // }
+    //endregion ** Nicht so wichtig
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        viewModel = ViewModelProviders.of(this).get(SharedViewModel.class);
-
-
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);
+        //  pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        //  int index = 1;
+        //  if (getArguments() != null) {
+        //      index = getArguments().getInt(ARG_SECTION_NUMBER);
+        //  }
+        //  pageViewModel.setIndex(index);
     }
 
     @Override
@@ -62,21 +53,13 @@ public class FragmentEins extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_eins, container, false);
 
-
-        final TextView textView = root.findViewById(R.id.section_label);
         final TextView tv = root.findViewById(R.id.tv);
         ImageView imageView= root.findViewById(R.id.imageView);
 
-
-
-
         Glide.with(this)
-                .load(getResources().getDrawable(R.drawable.car_5))
+                .load(getResources().getDrawable(R.drawable.car_3))
                 .apply(RequestOptions.centerCropTransform())
-                // .apply(RequestOptions.overrideOf(1920))
-                //.apply(RequestOptions.fitCenterTransform())
                 .into(imageView);
-
 
         cv1 = root.findViewById(R.id.cv1);
         cv2 = root.findViewById(R.id.cv2);
@@ -91,34 +74,17 @@ public class FragmentEins extends Fragment {
         cv3.setCardBackgroundColor(getResources().getColor(R.color.cv3B));
         cv3.setAlpha(0);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
-        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<CharSequence>() {
+        OpacityViewModel opacityViewModel = ViewModelProviders.of(getActivity()).get(OpacityViewModel.class);
+        opacityViewModel.getInt().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(@Nullable CharSequence charSequence) {
-                tv.setText(charSequence+"%");
-
-                String alphaString = String.valueOf(charSequence);
-
-                float alpha = Float.parseFloat(alphaString) / 100;
-
+            public void onChanged(@Nullable Integer mInteger) {
+                tv.setText(mInteger + "%");
+                float alpha = (float) mInteger / 100;
                 cv1.setAlpha(alpha);
                 cv2.setAlpha(alpha);
                 cv3.setAlpha(alpha);
-                // Toast.makeText(getActivity(), charSequence, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        pageViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
             }
         });
         return root;
     }
-
-
-
-
 }

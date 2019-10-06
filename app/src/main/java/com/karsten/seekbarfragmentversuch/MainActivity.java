@@ -1,22 +1,19 @@
 package com.karsten.seekbarfragmentversuch;
 
 import android.os.Bundle;
-
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.widget.SeekBar;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
+import com.karsten.seekbarfragmentversuch.fragments.OpacityViewModel;
 import com.karsten.seekbarfragmentversuch.fragments.SectionsPagerAdapter;
-import com.karsten.seekbarfragmentversuch.fragments.SharedViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SharedViewModel viewModel;
-    //private SeekBar seekBar;
+    private OpacityViewModel opacityViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +27,20 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
         SeekBar seekBar= findViewById(R.id.seekBar);
 
-        viewModel = ViewModelProviders.of(this).get(SharedViewModel.class);
+        opacityViewModel = ViewModelProviders.of(this).get(OpacityViewModel.class);
         seekBar.setMax(100);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-                String jaja= String.valueOf(i);
-
-                viewModel.setText(jaja);
+                opacityViewModel.setInt(i);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
-
-
-       // viewModel = new ViewModelProvider(MainActivity.this).get(SharedViewModel.class);
-
     }
 }
